@@ -1,6 +1,11 @@
+import React from 'react';
 import styles from './Search.module.scss';
 
-function Search({ searchPizza, setSearchPizza }) {
+import { SearchContext } from '../../App';
+
+function Search() {
+  const { searchPizza, setSearchPizza } = React.useContext(SearchContext);
+
   return (
     <div className={styles.root}>
       <label>
