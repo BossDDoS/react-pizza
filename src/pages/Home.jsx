@@ -11,8 +11,6 @@ import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
 
-import { SearchContext } from '../App';
-
 function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -20,9 +18,7 @@ function Home() {
   const isMounted = React.useRef(false);
 
   const { items, status } = useSelector((state) => state.pizza);
-  const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
-
-  const { searchPizza } = React.useContext(SearchContext);
+  const { categoryId, sort, currentPage, searchValue } = useSelector((state) => state.filter);
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
@@ -36,7 +32,7 @@ function Home() {
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const sortBy = sort.sortProperty.replace('-', '');
     const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
-    const search = searchPizza ? `&search=${searchPizza}` : '';
+    const search = searchValue ? `&search=${searchValue}` : '';
 
     dispatch(
       fetchPizzas({
@@ -75,7 +71,7 @@ function Home() {
       dispatch(setFilters({ ...params, sort }));
       isSearch.current = true;
     }
-  }, []);
+  }, [dispatch]);
 
   // Если был первый рендер, то запрашиваем пиццы
   React.useEffect(() => {
@@ -86,7 +82,7 @@ function Home() {
     }
 
     isSearch.current = false;
-  }, [categoryId, sort.sortProperty, searchPizza, currentPage]);
+  }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
   const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
   const pizzas = Array.isArray(items) && items?.map((obj) => <PizzaBlock key={obj.id} {...obj} />);

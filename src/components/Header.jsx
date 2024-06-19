@@ -5,8 +5,10 @@ import Search from './Search';
 
 import logoSvg from '../assets/img/pizza-logo.svg';
 
+import { selectCart } from '../redux/slices/cartSlice';
+
 function Header({ searchPizza, setSearchPizza }) {
-  const { totalPrice, items } = useSelector((state) => state.cart);
+  const { totalPrice, items } = useSelector(selectCart);
 
   const totalItems = items.reduce((total, item) => total + item.count, 0);
 
