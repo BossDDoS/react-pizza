@@ -3,7 +3,11 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 
 function FullPizza() {
-  const [pizza, setPizza] = React.useState();
+  const [pizza, setPizza] = React.useState<{
+    imageUrl: string;
+    title: string;
+    price: number;
+  }>();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -24,6 +28,7 @@ function FullPizza() {
   if (!pizza) {
     return <div>Загрузка пиццы</div>;
   }
+
   return (
     <div className="container">
       <img className="pizza-block__image" src={pizza.imageUrl} alt="Пицца" />
