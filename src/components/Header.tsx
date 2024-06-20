@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -6,11 +7,11 @@ import LogoBlock from './LogoBlock';
 
 import { selectCart } from '../redux/slices/cartSlice';
 
-function Header({ searchPizza, setSearchPizza }) {
+const Header: React.FC = () => {
   const { totalPrice, items } = useSelector(selectCart);
   const location = useLocation();
 
-  const totalItems = items.reduce((total, item) => total + item.count, 0);
+  const totalItems = items.reduce((total: number, item: any) => total + item.count, 0);
 
   return (
     <div className="header">
@@ -18,7 +19,7 @@ function Header({ searchPizza, setSearchPizza }) {
         <Link to="/">
           <LogoBlock />
         </Link>
-        <Search searchPizza={searchPizza} setSearchPizza={setSearchPizza} />
+        <Search />
         {location.pathname !== '/cart' && (
           <div className="header__cart">
             <Link to="/cart" className="button button--cart">
@@ -59,6 +60,6 @@ function Header({ searchPizza, setSearchPizza }) {
       </div>
     </div>
   );
-}
+};
 
 export default Header;

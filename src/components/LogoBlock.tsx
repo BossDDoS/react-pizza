@@ -1,6 +1,7 @@
+import React from 'react';
 import logoSvg from '../assets/img/pizza-logo.svg';
 
-function LogoBlock() {
+const LogoBlock: React.FC = () => {
   return (
     <div className="header__logo">
       <img width="38" src={logoSvg} alt="Pizza logo" />
@@ -10,6 +11,6 @@ function LogoBlock() {
       </div>
     </div>
   );
-}
+};
 
 export default LogoBlock;

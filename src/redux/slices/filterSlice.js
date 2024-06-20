@@ -34,6 +34,8 @@ export const filterSlice = createSlice({
   },
 });
 
+export const selectFilterPizza = (state) => state.filter;
+
 export const { setCategoryId, setSearchValue, setSort, setCurrentPage, setFilters } =
   filterSlice.actions;
 
