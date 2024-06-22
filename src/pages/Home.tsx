@@ -26,9 +26,12 @@ const Home: React.FC = () => {
   const { items, status } = useSelector(selectPizzaData);
   const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilterPizza);
 
-  const onChangeCategory = (id: number) => {
-    dispatch(setCategoryId(id));
-  };
+  const onChangeCategory = React.useCallback(
+    (id: number) => {
+      dispatch(setCategoryId(id));
+    },
+    [dispatch],
+  );
 
   const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page));
@@ -36,14 +39,14 @@ const Home: React.FC = () => {
 
   const getPizzas = async () => {
     const category = categoryId > 0 ? `category=${categoryId}` : '';
-    const sortBy = sort.sortProperty.replace('-', '');
+    const sortProperty = sort.sortProperty.replace('-', '');
     const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
     const search = searchValue ? `&search=${searchValue}` : '';
 
     dispatch(
       fetchPizzas({
-        category,
-        sortBy,
+        categoryId: String(category),
+        sortProperty,
         order,
         search,
         currentPage: String(currentPage),
@@ -72,11 +75,11 @@ const Home: React.FC = () => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1)) as SearchPizzaParams;
 
-      const sort = sorts.find((obj) => obj.sortProperty === params.sortBy);
+      const sort = sorts.find((obj) => obj.sortProperty === params.sortProperty);
 
       dispatch(
         setFilters({
-          categoryId: Number(params.category),
+          categoryId: Number(params.categoryId),
           searchValue: params.search,
           currentPage: Number(params.currentPage),
           sort,
@@ -105,7 +108,7 @@ const Home: React.FC = () => {
     <div className="container">
       <div className="content__top">
         <Categories value={categoryId} onChangeCategory={onChangeCategory} />
-        <Sort />
+        <Sort value={sort} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === 'error' ? (
