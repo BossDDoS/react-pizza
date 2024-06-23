@@ -9,11 +9,9 @@ import { selectFilterPizza } from '../redux/filter/selectors';
 import { selectPizzaData } from '../redux/pizza/selectors';
 import { SearchPizzaParams } from '../redux/pizza/types';
 
-import Categories from '../components/Categories';
-import Sort, { sorts } from '../components/SortPopup';
-import PizzaBlock from '../components/PizzaBlock';
-import Skeleton from '../components/PizzaBlock/Skeleton';
-import Pagination from '../components/Pagination';
+import { sorts } from '../components/SortPopup';
+
+import { PizzaBlock, Skeleton, Categories, SortPopup, Pagination } from '../components';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -98,6 +96,7 @@ const Home: React.FC = () => {
     isSearch.current = false;
   }, [categoryId, sort.sortProperty, searchValue, currentPage, dispatch]);
 
+  // Заглушка скелетон
   const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
   const pizzas =
     Array.isArray(items) && items?.map((obj: any) => <PizzaBlock key={obj.id} {...obj} />);
@@ -106,7 +105,7 @@ const Home: React.FC = () => {
     <div className="container">
       <div className="content__top">
         <Categories value={categoryId} onChangeCategory={onChangeCategory} />
-        <Sort value={sort} />
+        <SortPopup value={sort} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === 'error' ? (
